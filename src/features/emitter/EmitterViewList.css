@@ -1,0 +1,48 @@
+.emitter-list {
+  box-sizing: border-box;
+  width: 250px;
+  height: 100%;
+  background: #252526;
+  color: #CCCCCC;
+  padding: 10px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.emitter-list::-webkit-scrollbar {
+  background-color: #222222;
+  width: 8px;
+}
+
+.emitter-list::-webkit-scrollbar-thumb {
+  background-color: #777777;
+  border-radius: 4px;
+}
+
+.emitter-list > ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.emitter-list > ul > li {
+  padding: 10px;
+}
+
+.emitter-list > ul > li:hover {
+  background: #323232;
+}
+
+.emitter-list .selected {
+  background: #2c3b5c !important;
+}
+
+.emitter-list-name {
+  font-weight: bold;
+  padding: 2px;
+}
+
+.emitter-list-source {
+  padding: 2px;
+  font-size: 15px;
+}

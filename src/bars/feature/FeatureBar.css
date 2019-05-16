@@ -1,0 +1,27 @@
+.feature-bar {
+  box-sizing: border-box;
+  width: 50px;
+  height: 100%;
+  background-color: #333333;
+  padding: 5px;
+}
+
+.feature-bar > ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.feature-bar > ul li {
+  padding: 2px 10px;
+  margin-top: 5px;
+  background: #222222;
+  color: #BBBBBB;
+  font-size: 30px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.feature-bar > ul li.selected {
+  background: #222244;
+}

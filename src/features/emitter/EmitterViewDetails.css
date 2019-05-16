@@ -1,0 +1,8 @@
+.emitter-details {
+  box-sizing: border-box;
+  height: 100%;
+  background: #1E1E1E;
+  color: #CCCCCC;
+  padding: 10px;
+  flex-grow: 1;
+}

@@ -1,0 +1,6 @@
+.emitter-root {
+  display: flex;
+  height: 100%;
+  flex-grow: 1;
+}
+

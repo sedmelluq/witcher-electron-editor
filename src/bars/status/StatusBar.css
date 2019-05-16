@@ -1,0 +1,28 @@
+.status-bar {
+  height: 20px;
+  width: 100%;
+  display: flex;
+  background: #114488;
+}
+
+.status-bar-indicator {
+  box-sizing: border-box;
+  margin: 4px;
+  width: 11px;
+  border-radius: 20px;
+}
+
+.status-bar-indicator.connected {
+  background-color: #227722;
+}
+
+.status-bar-indicator.disconnected {
+  background-color: #772222;
+}
+
+.status-bar-message {
+  color: #acacac;
+  margin: 2px;
+  font-weight: bold;
+  font-size: 13px;
+}

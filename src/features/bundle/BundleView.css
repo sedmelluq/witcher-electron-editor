@@ -1,0 +1,7 @@
+.bundle-root {
+  box-sizing: border-box;
+  background: #1E1E1E;
+  color: #CCCCCC;
+  flex-grow: 1;
+  padding: 10px;
+}
