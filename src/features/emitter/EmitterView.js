@@ -14,7 +14,7 @@ export default class EmitterView extends React.Component {
     return (
       <div className="emitter-root">
         <EmitterViewList feature={this.props.feature} />
-        <EmitterViewDetails item={this.props.feature.selectedEmitter} />
+        <EmitterViewDetails emitter={this.props.feature.selectedEmitter} />
       </div>
     )
   }

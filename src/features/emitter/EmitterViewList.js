@@ -14,13 +14,16 @@ export default class EmitterViewList extends React.Component {
   }
 
   render() {
+    const sortedEmitters = Object.values(this.props.feature.emitters)
+    sortedEmitters.sort((a, b) => a.name.localeCompare(b.name))
+
     return (
       <div className="emitter-list">
         <ul>
-        {this.props.feature.emitters.map((item, index) => (
+        {sortedEmitters.map((item, index) => (
           <li key={item.name} onClick={this.handleClick} data-id={item.name} className={this.props.selected == item.name ? "selected" : "unselected"}>
             <div className="emitter-list-name">{item.name}</div>
-            <div className="emitter-list-source">{item.source}</div>
+            <div className="emitter-list-source">{item.metadata.source}</div>
           </li>
         ))}
         </ul>

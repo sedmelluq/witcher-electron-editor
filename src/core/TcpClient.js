@@ -45,9 +45,15 @@ export default class TcpClient {
   _onClose = (hadError) => {
     this.connected = false
 
-    while (!this._requestQueue.isEmpty()) {
-      const handler = this._requestQueue.dequeue()
-      handler(false)
+    const queueSize = this._requestQueue.size()
+
+    if (queueSize > 0) {
+      console.log("TCP: marking", queueSize, "requests as failed because connection closed")
+
+      while (!this._requestQueue.isEmpty()) {
+        const handler = this._requestQueue.dequeue()
+        handler(false)
+      }
     }
 
     setTimeout(this._triggerConnect, 10000)
@@ -138,8 +144,6 @@ export default class TcpClient {
   }
 
   _onError = (error) => {
-    console.log('arrr', error)
-
     if (this.connected) {
       this.connectionMessage = 'Disconnected: ' + error.message
     } else {
