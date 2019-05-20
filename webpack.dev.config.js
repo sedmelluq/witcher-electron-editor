@@ -6,6 +6,9 @@ const { spawn } = require('child_process')
 const defaultInclude = path.resolve(__dirname, 'src')
 
 module.exports = {
+  resolve: {
+    extensions: ['.js', '.jsx', '.ts', '.tsx', '.json']
+  },
   module: {
     rules: [
       {
@@ -15,6 +18,11 @@ module.exports = {
       },
       {
         test: /\.jsx?$/,
+        use: [{ loader: 'babel-loader' }],
+        include: defaultInclude
+      },
+      {
+        test: /\.ts?$/,
         use: [{ loader: 'babel-loader' }],
         include: defaultInclude
       },

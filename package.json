@@ -31,6 +31,7 @@
     "@babel/plugin-proposal-decorators": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.3.3",
     "babel-loader": "^8.0.5",
     "babili-webpack-plugin": "^0.1.2",
     "css-loader": "^2.1.1",

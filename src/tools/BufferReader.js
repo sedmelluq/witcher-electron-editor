@@ -33,7 +33,7 @@ export default class BufferReader {
   }
 
   static _nextFloatOf(reader) {
-    const result = reader.buffer.readFloatLE()
+    const result = reader.buffer.readFloatLE(reader.position)
     reader.position += 4
     return result
   }

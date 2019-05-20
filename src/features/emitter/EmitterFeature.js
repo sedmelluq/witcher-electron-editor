@@ -96,8 +96,8 @@ export default class EmitterFeature {
 
   _readEmitterDetails(emitter, reader) {
     const details = {
-      initializersEnabled: reader.nextBitset32(),
-      modificatorsEnabled: reader.nextBitset32(),
+      initializersEnabled: reader.nextUInt32(),
+      modificatorsEnabled: reader.nextUInt32(),
       alpha: reader.nextFloatBuffer(),
       color: reader.nextVector3Buffer(),
       lifetime: reader.nextFloatBuffer(),
@@ -146,13 +146,13 @@ export default class EmitterFeature {
       targetKillRadius: reader.nextFloatBuffer(),
       targetMaxForce: reader.nextFloat(),
       targetPosition: reader.nextVector3Buffer(),
-      p100: reader.nextUInt8(),
-      p101: reader.nextUInt8(),
-      p102: reader.nextUInt8(),
-      p103: reader.nextUInt8(),
-      p104: reader.nextUInt8(),
-      p105: reader.nextUInt8(),
-      p106: reader.nextUInt8(),
+      spawnPositiveX: reader.nextUInt8(),
+      spawnNegativeX: reader.nextUInt8(),
+      spawnPositiveY: reader.nextUInt8(),
+      spawnNegativeY: reader.nextUInt8(),
+      spawnPositiveZ: reader.nextUInt8(),
+      spawnNegativeZ: reader.nextUInt8(),
+      spawnVelocity: reader.nextUInt8(),
       p230: reader.nextUInt64(),
       p238: reader.nextUInt32(),
       p23C: reader.nextUInt32(),
@@ -164,7 +164,7 @@ export default class EmitterFeature {
       p250: reader.nextUInt8(),
       collisionTriggerGroupIndex: reader.nextUInt32(),
       p224: reader.nextUInt32(),
-      p228: reader.nextUInt32(),
+      collisionSpawnParentEmitterIndex: reader.nextUInt32(),
       alphaByDistanceFar: reader.nextFloat(),
       alphaByDistanceNear: reader.nextFloat()
     }
@@ -173,7 +173,7 @@ export default class EmitterFeature {
       throw new Error ("Did not read all data from emitter")
     }
 
-    emitter.details = details;
+    emitter.loadDetails(details)
   }
 
   _handleEmitterListMessage = (success, type, payload) => {
