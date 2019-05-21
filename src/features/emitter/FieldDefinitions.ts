@@ -22,6 +22,12 @@ export class UInt32Field extends BaseField<number> {
   }
 }
 
+export class UInt64Field extends BaseField<Array<number>> {
+  constructor(public propertyName: string) {
+    super(propertyName)
+  }
+}
+
 export class BooleanField extends BaseField<number> {
   constructor(public propertyName: string) {
     super(propertyName)

@@ -1,6 +1,6 @@
 import EmitterModule from './EmitterModule'
 import { observable } from 'mobx';
-import { BufferSizePolicy, FloatBufferField, Vector2BufferField, Vector3BufferField, FloatField, BooleanField, Vector3Field, UInt32Field } from './FieldDefinitions';
+import { BufferSizePolicy, FloatBufferField, Vector2BufferField, Vector3BufferField, FloatField, BooleanField, Vector3Field, UInt32Field, UInt64Field } from './FieldDefinitions';
 
 export default class EmitterInfo {
   @observable public detailsState: string = 'notloaded'
@@ -130,14 +130,117 @@ export default class EmitterInfo {
         new FloatBufferField('velocitySpreadScale', periodicChange),
         new BooleanField('velocitySpreadConserveMomentum')
       ]),
-      new EmitterModule(0x10000000, 0, 'Init ??? (periodic)', [
-        new FloatBufferField('p134', periodicChange)
+      new EmitterModule(0x10000000, 0, 'Texture initial frame (periodic)', [
+        new FloatBufferField('textureAnimationInitialFrame', periodicChange)
       ]),
-      new EmitterModule(0x20000000, 0, 'Init ??? (random)', [
-        new FloatBufferField('p134', randomRange)
+      new EmitterModule(0x20000000, 0, 'Texture initial frame (random)', [
+        new FloatBufferField('textureAnimationInitialFrame', randomRange)
       ]),
       new EmitterModule(0x40000000, 0, 'Collision spawn', [
+        new FloatField('collisionSpawnProbability'),
         new UInt32Field('collisionSpawnParentEmitterIndex')
+      ]),
+      new EmitterModule(0, 0x00000001, 'Velocity over life (set)', [
+        new Vector3BufferField('velocityOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00000002, 'Velocity over life (multiply)', [
+        new Vector3BufferField('velocityOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00000004, 'Acceleration (local)', [
+        new Vector3BufferField('accelerationDirection', periodicChange),
+        new FloatBufferField('accelerationScale', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00000008, 'Acceleration (world)', [
+        new Vector3BufferField('accelerationDirection', periodicChange),
+        new FloatBufferField('accelerationScale', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00000010, 'Alpha over life (set)', [
+        new FloatBufferField('alphaOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00000020, 'Alpha over life (multiply)', [
+        new FloatBufferField('alphaOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00000040, 'Color over life (set)', [
+        new Vector3BufferField('colorOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00000080, 'Color over life (multiply)', [
+        new Vector3BufferField('colorOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00000100, 'Rotation over life (set)', [
+        new FloatBufferField('rotationOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00000200, 'Rotation over life (multiply)', [
+        new FloatBufferField('rotationOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00000400, 'Rotation rate over life (set)', [
+        new FloatBufferField('rotationRateOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00000800, 'Rotation rate over life (multiply)', [
+        new FloatBufferField('rotationRateOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00001000, 'Size over life (set)', [
+        new Vector2BufferField('sizeOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00002000, 'Size over life (multiply)', [
+        new Vector2BufferField('sizeOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00004000, 'Rotation 3D over life (set)', [
+        new Vector3BufferField('rotation3dOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00008000, 'Rotation 3D over life (multiply)', [
+        new Vector3BufferField('rotation3dOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00010000, 'Rotation rate 3D over life (set)', [
+        new Vector3BufferField('rotationRate3dOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00020000, 'Rotation rate 3D over life (multiply)', [
+        new Vector3BufferField('rotationRate3dOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00040000, 'Size 3D over life (set)', [
+        new Vector3BufferField('size3dOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00080000, 'Size 3D over life (multiply)', [
+        new Vector3BufferField('size3dOverLife', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00100000, 'Texture animation (mode 0)', [
+        new FloatBufferField('textureAnimationSpeed', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00200000, 'Texture animation (mode 1)', [
+        new FloatBufferField('textureAnimationSpeed', periodicChange)
+      ]),
+      new EmitterModule(0, 0x00400000, 'Target', [
+        new Vector3BufferField('targetPosition', periodicChange),
+        new FloatBufferField('targetForceScale', periodicChange),
+        new FloatBufferField('targetKillRadius', periodicChange),
+        new FloatField('targetMaxForce')
+      ]),
+      new EmitterModule(0, 0x00800000, 'Target node', [
+        new FloatBufferField('targetForceScale', periodicChange),
+        new FloatBufferField('targetKillRadius', periodicChange),
+        new FloatField('targetMaxForce')
+      ]),
+      new EmitterModule(0, 0x01000000, 'Velocity turbulize', [
+        new Vector3BufferField('velocityTurbulizeScale', periodicChange),
+        new FloatBufferField('velocityTurbulizeTimelifeLimit', periodicChange),
+        new FloatField('velocityTurbulizeNoiseInterval'),
+        new FloatField('velocityTurbulizeDuration')
+      ]),
+      new EmitterModule(0, 0x02000000, 'Alpha over effect', []),
+      new EmitterModule(0, 0x04000000, 'Collision', [
+        new UInt64Field('collisionTriggerGroupIndex'),
+        new FloatField('collisionDynamicFriction'),
+        new FloatField('collisionStaticFriction'),
+        new FloatField('collisionRestitution'),
+        new FloatField('collisionVelocityDampening'),
+        new BooleanField('collisionDisableGravity'),
+        new BooleanField('collisionUseGpu'),
+        new FloatField('collisionRadius'),
+        new BooleanField('collisionKillWhenCollide'),
+        new UInt32Field('collisionSelfEmitterIndex')
+      ]),
+      new EmitterModule(0, 0x08000000, 'Alpha by distance', [
+        new FloatField('alphaByDistanceFar'),
+        new FloatField('alphaByDistanceNear')
       ])
     ]
 
