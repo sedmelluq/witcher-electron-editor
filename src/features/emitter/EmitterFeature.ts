@@ -1,74 +1,77 @@
-import React from 'react'
+import React, { ReactElement } from 'react'
 import EmitterInfo from './EmitterInfo'
 import EmitterView from './EmitterView'
 import BufferReader from '../../tools/BufferReader'
-import { observable, computed } from 'mobx';
+import TcpClient from '../../core/TcpClient'
+import { observable, computed } from 'mobx'
 
 export default class EmitterFeature {
-  featureBarKey = 'P'
-  @observable emitters = {}
-  @observable selectedEmitterName = ""
+  public featureBarKey: string = 'P'
+  @observable public emitters: object = {}
+  @observable public selectedEmitterName: string = ''
+  private tcpClient: TcpClient
+  private refreshInterval: NodeJS.Timeout
 
-  constructor(tcpClient) {
-    this._tcpClient = tcpClient
-    this._refreshInterval = setInterval(this._refresh, 5000)
-    setTimeout(this._refresh, 500)
+  constructor(tcpClient: TcpClient) {
+    this.tcpClient = tcpClient
+    this.refreshInterval = setInterval(this.refresh, 5000)
+    setTimeout(this.refresh, 500)
   }
 
-  fetchDetails(emitterName) {
-    const emitter = this._findEmitter(emitterName)
+  fetchDetails(emitterName: string) {
+    const emitter = this.findEmitter(emitterName)
 
     if (emitter) {
-      this._fetchDetailsFor(emitter)
+      this.fetchDetailsFor(emitter)
     }
   }
 
-  _fetchDetailsFor(emitter) {
-    if (emitter.detailsState == "notloaded" && this._tcpClient.connected) {
+  private fetchDetailsFor(emitter: EmitterInfo) {
+    if (emitter.detailsState == "notloaded" && this.tcpClient.connected) {
       const nameLength = Buffer.byteLength(emitter.name, 'utf8')
       const messageBuffer = Buffer.alloc(4 + nameLength)
 
       messageBuffer.writeUInt32LE(nameLength, 0)
       messageBuffer.write(emitter.name, 4, nameLength)
 
-      const callback = this._handleEmitterDetailsMessage
+      const callback = this.handleEmitterDetailsMessage
       
-      this._tcpClient.request(7, messageBuffer, (success, type, payload) => {
+      this.tcpClient.request(7, messageBuffer, (success: boolean, type: number, payload: Buffer) => {
         callback(emitter, success, type, payload)
       })
     }
   }
 
-  createView() {
+  createView(): ReactElement {
     return React.createElement(EmitterView, { feature: this }, null)
   }
 
-  selectEmitter(emitterName) {
-    const emitter = this._findEmitter(emitterName)
+  selectEmitter(emitterName: string) {
+    const emitter = this.findEmitter(emitterName)
 
     if (emitter) {
       this.selectedEmitterName = emitterName
       console.log('selection done', emitterName)
 
-      this._fetchDetailsFor(emitter)
+      this.fetchDetailsFor(emitter)
     }
   }
 
-  @computed get selectedEmitter() {
-    return this._findEmitter(this.selectedEmitterName)
+  @computed get selectedEmitter(): EmitterInfo {
+    return this.findEmitter(this.selectedEmitterName)
   }
 
-  _findEmitter(emitterName) {
+  private findEmitter(emitterName: string): EmitterInfo {
     return Object.values(this.emitters).find(emitter => { return emitter.name === emitterName })
   }
 
-  _refresh = () => {
-    if (this._tcpClient.connected) {
-      this._tcpClient.request(5, Buffer.alloc(0), this._handleEmitterListMessage)
+  private refresh = () => {
+    if (this.tcpClient.connected) {
+      this.tcpClient.request(5, Buffer.alloc(0), this.handleEmitterListMessage)
     }
   }
 
-  _handleEmitterDetailsMessage = (emitter, success, type, payload) => {
+  private handleEmitterDetailsMessage = (emitter: EmitterInfo, success: boolean, type: number, payload: Buffer) => {
     if (!success) {
       console.log("Emitter details of ", emitter.name, ": failed due to connection error")
       emitter.detailsState = "failed"
@@ -80,7 +83,7 @@ export default class EmitterFeature {
       
       try {
         if (reader.nextUInt8() == 1) {
-          this._readEmitterDetails(emitter, reader)
+          this.readEmitterDetails(emitter, reader)
           emitter.detailsState = "ready"
         } else {
           console.log("Emitter details of ", emitter.name, ": not found in game")
@@ -94,7 +97,7 @@ export default class EmitterFeature {
     }
   }
 
-  _readEmitterDetails(emitter, reader) {
+  private readEmitterDetails(emitter: EmitterInfo, reader: BufferReader) {
     const details = {
       initializersEnabled: reader.nextUInt32(),
       modificatorsEnabled: reader.nextUInt32(),
@@ -169,14 +172,14 @@ export default class EmitterFeature {
       alphaByDistanceNear: reader.nextFloat()
     }
 
-    if (reader.position < reader.limit) {
+    if (reader.remaining() > 0) {
       throw new Error ("Did not read all data from emitter")
     }
 
     emitter.loadModuleData(details)
   }
 
-  _handleEmitterListMessage = (success, type, payload) => {
+  private handleEmitterListMessage = (success: boolean, type: number, payload: Buffer) => {
     if (!success) {
       return
     }

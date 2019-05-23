@@ -1,23 +1,33 @@
+import { Vector2, Vector3 } from '../features/emitter/FieldDefinitions'
+
 export default class BufferReader {
-  constructor(buffer, offset, length) {
+  private buffer: Buffer
+  private position: number
+  private limit: number
+
+  constructor(buffer: Buffer, offset?: number, length?: number) {
     this.buffer = buffer
     this.position = (typeof offset === 'undefined') ? 0 : offset
-    this.limit = (typeof length === 'undefined') ? buffer.length : this.offset + length
+    this.limit = (typeof length === 'undefined') ? buffer.length : offset + length
   }
 
-  nextUInt8() {
+  remaining(): number {
+    return this.limit - this.position
+  }
+
+  nextUInt8(): number {
     const result = this.buffer.readUInt8(this.position)
     this.position += 1
     return result
   }
 
-  nextUInt32() {
+  nextUInt32(): number {
     const result = this.buffer.readUInt32LE(this.position)
     this.position += 4
     return result
   }
 
-  nextBitset32() {
+  nextBitset32(): boolean[] {
     const compressed = this.nextUInt32()
     const bitset = []
 
@@ -28,25 +38,25 @@ export default class BufferReader {
     return bitset
   }
 
-  nextFloat() {
-    return this.constructor._nextFloatOf(this)
+  nextFloat(): number {
+    return BufferReader.nextFloatOf(this)
   }
 
-  static _nextFloatOf(reader) {
+  private static nextFloatOf(reader: BufferReader): number {
     const result = reader.buffer.readFloatLE(reader.position)
     reader.position += 4
     return result
   }
 
-  nextFloatBuffer() {
-    return this._nextBuffer(this.constructor._nextFloatOf)
+  nextFloatBuffer(): number[] {
+    return this.nextBuffer(BufferReader.nextFloatOf)
   }
 
-  nextVector3() {
-    return this.constructor._nextVector3Of(this)
+  nextVector3(): Vector3 {
+    return BufferReader.nextVector3Of(this)
   }
 
-  static _nextVector3Of(reader) {
+  private static nextVector3Of(reader: BufferReader): Vector3 {
     return {
       x: reader.nextFloat(),
       y: reader.nextFloat(),
@@ -54,27 +64,27 @@ export default class BufferReader {
     }
   }
 
-  nextVector3Buffer() {
-    return this._nextBuffer(this.constructor._nextVector3Of)
+  nextVector3Buffer(): Vector3[] {
+    return this.nextBuffer(BufferReader.nextVector3Of)
   }
 
-  nextVector2() {
-    return this.constructor._nextVector2Of(this)
+  nextVector2(): Vector2 {
+    return BufferReader.nextVector2Of(this)
   }
 
-  static _nextVector2Of(reader) {
+  private static nextVector2Of(reader: BufferReader): Vector2 {
     return {
       x: reader.nextFloat(),
       y: reader.nextFloat()
     }
   }
 
-  nextVector2Buffer() {
-    return this._nextBuffer(this.constructor._nextVector2Of)
+  nextVector2Buffer(): Vector2[] {
+    return this.nextBuffer(BufferReader.nextVector2Of)
   }
 
-  nextMatrix() {
-    const values = []
+  nextMatrix(): number[] {
+    const values: number[] = []
 
     for (let i = 0; i < 16; i++) {
       values.push(this.nextFloat())
@@ -83,16 +93,16 @@ export default class BufferReader {
     return values
   }
   
-  nextUInt64() {
+  nextUInt64(): number[] {
     const first = this.nextUInt32()
     const second = this.nextUInt32()
     
     return [second, first]
   }
 
-  _nextBuffer(readFunction) {
+  private nextBuffer<T>(readFunction: (BufferReader) => T): T[] {
     const count = this.nextUInt8()
-    const values = []
+    const values: T[] = []
 
     for (let i = 0; i < count; i++) {
       values.push(readFunction(this))
@@ -101,7 +111,7 @@ export default class BufferReader {
     return values
   }
 
-  nextString() {
+  nextString(): string {
     const length = this.nextUInt32()
     const result = this.buffer.toString('utf8', this.position, this.position + length)
     this.position += length

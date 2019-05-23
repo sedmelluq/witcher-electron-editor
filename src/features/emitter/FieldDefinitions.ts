@@ -22,7 +22,7 @@ export class UInt32Field extends BaseField<number> {
   }
 }
 
-export class UInt64Field extends BaseField<Array<number>> {
+export class UInt64Field extends BaseField<number[]> {
   constructor(public propertyName: string) {
     super(propertyName)
   }
@@ -52,7 +52,7 @@ export class BufferSizePolicy {
   }
 }
 
-export class BaseBufferField<T> extends BaseField<Array<T>> {
+export class BaseBufferField<T> extends BaseField<T[]> {
   constructor(propertyName: string, public sizePolicy: BufferSizePolicy) {
     super(propertyName)
   }

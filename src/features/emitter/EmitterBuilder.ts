@@ -1,7 +1,7 @@
 export default class EmitterBuilder {
   public moduleData: object = {}
   public propertyProvider: object = {}
-  public errors: Array<string> = []
+  public errors: string[] = []
 
   constructor() {
     this.moduleData['initializersEnabled'] = 0

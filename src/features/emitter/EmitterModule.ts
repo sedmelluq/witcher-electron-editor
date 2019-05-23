@@ -5,7 +5,7 @@ export default class EmitterModule {
   public enabled: boolean = false
 
   constructor(public initializerFlag: number, public modificatorFlag: number, public name: string,
-        public fields: Array<BaseField<{}>>) {
+        public fields: BaseField<{}>[]) {
     
     this.name = name
     this.initializerFlag = initializerFlag

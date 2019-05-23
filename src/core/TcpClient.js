@@ -2,7 +2,7 @@ import net from 'net'
 import { Buffer } from 'buffer'
 import BufferBuilder from 'buffer-builder'
 import Queue from 'queue-fifo'
-import { observable } from 'mobx';
+import { observable } from 'mobx'
 
 export default class TcpClient {
   @observable connected = false
