@@ -1,6 +1,7 @@
 import EmitterModule from './EmitterModule'
 import { observable } from 'mobx';
 import { BufferSizePolicy, FloatBufferField, Vector2BufferField, Vector3BufferField, FloatField, BooleanField, Vector3Field, UInt32Field, UInt64Field } from './FieldDefinitions';
+import EmitterBuilder from './EmitterBuilder';
 
 export default class EmitterInfo {
   @observable public detailsState: string = 'notloaded'
@@ -16,7 +17,7 @@ export default class EmitterInfo {
     this.modules = null
   }
 
-  loadDetails(moduleData: object) {
+  loadModuleData(moduleData: object) {
     this.details = moduleData
 
     const periodicChange = new BufferSizePolicy(2, 63)
@@ -241,14 +242,31 @@ export default class EmitterInfo {
       new EmitterModule(0, 0x08000000, 'Alpha by distance', [
         new FloatField('alphaByDistanceFar'),
         new FloatField('alphaByDistanceNear')
+      ]),
+      new EmitterModule(0, 0, 'Unassigned', [
+        new UInt32Field('p140'),
+        new UInt32Field('p144'),
+        new UInt32Field('p148')
       ])
     ]
 
     for (let module of modules) {
-      module.loadValues(moduleData)
+      module.loadModuleData(moduleData)
     }
 
     this.modules = modules
     console.log(this.modules)
+  }
+
+  buildModuleData() {
+    const builder = new EmitterBuilder()
+    
+    if (this.modules !== null) {
+      for (let module of this.modules) {
+        module.buildModuleData(builder)
+      }
+    }
+
+    return builder
   }
 }

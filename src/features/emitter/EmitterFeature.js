@@ -173,7 +173,7 @@ export default class EmitterFeature {
       throw new Error ("Did not read all data from emitter")
     }
 
-    emitter.loadDetails(details)
+    emitter.loadModuleData(details)
   }
 
   _handleEmitterListMessage = (success, type, payload) => {
