@@ -3,16 +3,23 @@ import { observable } from 'mobx'
 import { BufferSizePolicy, FloatBufferField, Vector2BufferField, Vector3BufferField, FloatField, BooleanField, Vector3Field, UInt32Field, UInt64Field } from './FieldDefinitions'
 import EmitterBuilder from './EmitterBuilder'
 
+export class EmitterMetadata {
+  constructor(
+    public name: string,
+    public directory: string,
+    public source: string,
+    public bundle: string
+  ) {}
+}
+
 export default class EmitterInfo {
   @observable public detailsState: string = 'notloaded'
   public details: object = null
   public name: string
-  public metadata: object
-  public modules: EmitterModule[]
+  @observable public modules: EmitterModule[]
 
-  constructor(metadata: object) {
-    this.name = metadata['name'] as string
-    this.metadata = metadata
+  constructor(public metadata: EmitterMetadata) {
+    this.name = metadata.name
     this.details = null
     this.modules = null
   }

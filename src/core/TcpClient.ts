@@ -13,7 +13,7 @@ export default class TcpClient {
   @observable public connected: boolean = false
   @observable public connectionMessage: string = 'Initializing...'
   private socket: Socket = new Socket()
-  private requestQueue: Queue = new Queue()
+  private requestQueue: Queue<(boolean, number?, Buffer?) => void> = new Queue()
   private header: MessageHeader = null
   private headerBuilder: BufferBuilder = new BufferBuilder()
   private payloadBuilder: BufferBuilder = new BufferBuilder()

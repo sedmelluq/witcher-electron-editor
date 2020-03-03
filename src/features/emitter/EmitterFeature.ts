@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import EmitterInfo from './EmitterInfo'
+import EmitterInfo, { EmitterMetadata } from './EmitterInfo'
 import EmitterView from './EmitterView'
 import BufferReader from '../../tools/BufferReader'
 import TcpClient from '../../core/TcpClient'
@@ -189,12 +189,12 @@ export default class EmitterFeature {
     const newEmitters = {}
 
     for (let i = 0; i < count; i++) {
-      const metadata = {
-        name: reader.nextString(),
-        directory: reader.nextString(),
-        source: reader.nextString(),
-        bundle: reader.nextString()
-      }
+      const metadata = new EmitterMetadata(
+        reader.nextString(),
+        reader.nextString(),
+        reader.nextString(),
+        reader.nextString()
+      )
 
       if (metadata.name in this.emitters) {
         newEmitters[metadata.name] = this.emitters[metadata.name]

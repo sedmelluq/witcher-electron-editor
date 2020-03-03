@@ -1,4 +1,3 @@
-import { observable } from 'mobx'
 import TcpClient from './TcpClient'
 import EmitterFeature from '../features/emitter/EmitterFeature'
 import BundleFeature from '../features/bundle/BundleFeature'

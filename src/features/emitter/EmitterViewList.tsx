@@ -1,9 +1,15 @@
 import './EmitterViewList.css'
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
+import EmitterFeature from './EmitterFeature'
+
+interface EmitterViewListProperties {
+  feature: EmitterFeature,
+  selected: String
+}
 
 @observer
-export default class EmitterViewList extends React.Component {
+export default class EmitterViewList extends React.Component<EmitterViewListProperties> {
   constructor(props) {
     super(props)
   }

@@ -3,8 +3,17 @@ import React, { Component } from 'react'
 import FeatureBar from './bars/feature/FeatureBar'
 import StatusBar from './bars/status/StatusBar'
 import Titlebar from 'react-electron-titlebar'
+import CoreStore from './core/CoreStore'
 
-export default class Application extends React.Component {
+interface ApplicationProps {
+  core: CoreStore
+}
+
+interface ApplicationState {
+  selectedFeatureKey: String
+}
+
+export default class Application extends React.Component<ApplicationProps, ApplicationState> {
   constructor(props) {
     super(props)
 
