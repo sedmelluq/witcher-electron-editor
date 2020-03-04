@@ -24,7 +24,7 @@ export default class EmitterViewList extends React.Component<EmitterViewListProp
     sortedEmitters.sort((a, b) => a.name.localeCompare(b.name))
 
     return (
-      <div className="emitter-list">
+      <div className="emitter-list scrollable">
         <ul>
         {sortedEmitters.map((item, index) => (
           <li key={item.name} onClick={this.handleClick} data-id={item.name} className={this.props.selected == item.name ? "selected" : "unselected"}>

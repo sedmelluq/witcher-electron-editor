@@ -1,23 +1,45 @@
-.application-content {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+.flex-has-rows {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.flex-has-columns {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+
+.flex-remaining-width {
+  flex: 1 1 0;
+  overflow-x: hidden;
+}
+
+.flex-remaining-height {
+  flex: 1 1 0;
+  overflow-y: hidden;
 }
 
 .application {
+  /* self */
   height: 100%;
-  display: flex;
-  flex-flow: column;
 }
 
+/* menu bar */
 .application > div:first-of-type {
   background-color: #383838;
 }
 
-.application-content {
-  box-sizing: border-box;
-  display: flex;
-  width: 100%;
-  flex-grow: 1;
-  height: 100%;
+.scrollable {
+  overflow-y: scroll;
+}
+
+.scrollable::-webkit-scrollbar {
+  background-color: #222222;
+  width: 8px;
+}
+
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: #777777;
+  border-radius: 4px;
 }

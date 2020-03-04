@@ -33,10 +33,10 @@ export default class Application extends React.Component<ApplicationProps, Appli
     let featureView = feature.createView()
 
     return (
-      <div className="application">
+      <div className="application flex-has-rows">
         <Titlebar title="The editor thingy" backgroundColor="#343434" className="title-bar" />
 
-        <div className="application-content">
+        <div className="flex-has-columns flex-remaining-height">
           <FeatureBar features={this.props.core.features} selectedFeatureKey={this.state.selectedFeatureKey} updateSelection={this.updateFeatureSelection} />
           {featureView}
         </div>

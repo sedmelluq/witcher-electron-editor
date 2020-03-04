@@ -1,22 +1,10 @@
 .emitter-list {
   box-sizing: border-box;
-  width: 250px;
-  height: 100%;
+  width: 300px;
   background: #252526;
   color: #CCCCCC;
   padding: 10px;
-  overflow-y: scroll;
   overflow-x: hidden;
-}
-
-.emitter-list::-webkit-scrollbar {
-  background-color: #222222;
-  width: 8px;
-}
-
-.emitter-list::-webkit-scrollbar-thumb {
-  background-color: #777777;
-  border-radius: 4px;
 }
 
 .emitter-list > ul {

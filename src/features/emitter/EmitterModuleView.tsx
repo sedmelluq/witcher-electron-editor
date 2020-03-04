@@ -12,7 +12,7 @@ export default class EmitterModuleView extends React.Component<EmitterModuleProp
       const fields: object[] = []
 
       for (const field of this.props.module.fields) {
-        fields.push(<AnyFieldView field={field}></AnyFieldView>)
+        fields.push(<AnyFieldView key={field.propertyName} field={field}></AnyFieldView>)
       }
 
       return (

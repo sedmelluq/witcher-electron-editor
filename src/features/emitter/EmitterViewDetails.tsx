@@ -17,7 +17,7 @@ export default class EmitterViewDetails extends React.Component<EmitterViewDetai
   render() {
     if (!this.props.emitter) {
       return (
-        <div className="emitter-details">
+        <div className="emitter-details flex-remaining-width">
           <p>Nothing selected</p>
         </div>
       )
@@ -35,7 +35,7 @@ export default class EmitterViewDetails extends React.Component<EmitterViewDetai
     }
 
     return (
-      <div className="emitter-details">
+      <div className="emitter-details flex-remaining-width scrollable">
         <h3>Name: {this.props.emitter.metadata.name}</h3>
         <h3>File: {this.props.emitter.metadata.source}</h3>
         <h3>Directory: {this.props.emitter.metadata.directory}</h3>

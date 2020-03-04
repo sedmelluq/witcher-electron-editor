@@ -1,5 +1,8 @@
 .emitter-root {
-  display: flex;
-  height: 100%;
+  /* use remaining horizontal */
   flex-grow: 1;
+  /* children are horizontal */
+  display: flex;
+  flex-flow: row;
+  align-items: stretch;
 }

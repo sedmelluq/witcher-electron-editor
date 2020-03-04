@@ -6,7 +6,7 @@ import { observer } from 'mobx-react'
 export default class StatusBar extends React.Component {
   render() {
     return (
-      <div className="status-bar">
+      <div className="status-bar flex-has-columns">
         <div className={'status-bar-indicator' + (this.props.tcpClient.connected ? ' connected' : ' disconnected')}></div>
         <div className="status-bar-message">{this.props.tcpClient.connectionMessage}</div>
       </div>

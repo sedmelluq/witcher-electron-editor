@@ -1,7 +1,5 @@
 .status-bar {
   height: 20px;
-  width: 100%;
-  display: flex;
   background: #114488;
 }
 

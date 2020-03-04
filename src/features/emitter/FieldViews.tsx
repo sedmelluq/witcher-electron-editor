@@ -1,4 +1,4 @@
-import { FloatField, BaseField, Vector3Field, BaseBufferField, FloatBufferField, Vector3BufferField } from './FieldDefinitions'
+import { FloatField, BaseField, Vector3Field, BaseBufferField, FloatBufferField, Vector3BufferField, BooleanField, Vector2BufferField, UInt32Field } from './FieldDefinitions'
 import React, { Component } from 'react'
 import { observer } from 'mobx-react'
 
@@ -37,6 +37,36 @@ export class Vector3FieldView extends React.Component<FieldValueProps<Vector3Fie
 }
 
 @observer
+export class BooleanFieldView extends React.Component<FieldValueProps<BooleanField>, any> {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <div>
+        { this.props.field.propertyName } (boolean): { this.props.field.value ? 'true' : 'false' }
+      </div>
+    )
+  }
+}
+
+@observer
+export class UInt32FieldView extends React.Component<FieldValueProps<UInt32Field>, any> {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+      <div>
+        { this.props.field.propertyName } (uint32): { this.props.field.value }
+      </div>
+    )
+  }
+}
+
+@observer
 export class BufferFieldView<T> extends React.Component<FieldValueProps<BaseBufferField<T>>, any> {
   constructor(props) {
     super(props)
@@ -50,23 +80,29 @@ export class BufferFieldView<T> extends React.Component<FieldValueProps<BaseBuff
 
     if (field instanceof FloatBufferField) {
       (field as FloatBufferField).value.forEach((element, index) => {
-        elements.push(<div>[{index}] {element}</div>)
+        elements.push(<div key={index}>[{index}] {element}</div>)
       })
 
       type = "float"
     } else if (field instanceof Vector3BufferField) {
       (field as Vector3BufferField).value.forEach((element, index) => {
-        elements.push(<div>[{index}] X {element.x} Y {element.x} Z {element.x}</div>)
+        elements.push(<div key={index}>[{index}] X {element.x} Y {element.y} Z {element.z}</div>)
       })
 
       type = "Vector3"
+    } else if (field instanceof Vector2BufferField) {
+      (field as Vector2BufferField).value.forEach((element, index) => {
+        elements.push(<div key={index}>[{index}] X {element.x} Y {element.y}</div>)
+      })
+
+      type = "Vector2"
     } else {
       type = "???"
     }
 
     return (
       <div>
-        {this.props.field.propertyName} (float[{field.value.length}])
+        {this.props.field.propertyName} ({type}[{field.value.length}])
         <div style={{ margin: "10px" }}>{elements}</div>
       </div>
     )
@@ -85,6 +121,10 @@ export class AnyFieldView extends React.Component<FieldViewProps> {
   render() {
     if (this.props.field instanceof FloatField) {
       return <FloatFieldView field={this.props.field}></FloatFieldView>
+    } else if (this.props.field instanceof BooleanField) {
+      return <BooleanFieldView field={this.props.field}></BooleanFieldView>
+    } else if (this.props.field instanceof UInt32Field) {
+      return <UInt32FieldView field={this.props.field}></UInt32FieldView>
     } else if (this.props.field instanceof BaseBufferField) {
       return <BufferFieldView field={this.props.field}></BufferFieldView>
     } else {

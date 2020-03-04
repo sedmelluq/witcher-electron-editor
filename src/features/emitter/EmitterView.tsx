@@ -17,7 +17,7 @@ export default class EmitterView extends React.Component<EmitterViewProperties, 
 
   render() {
     return (
-      <div className="emitter-root">
+      <div className="flex-has-columns flex-remaining-width">
         <EmitterViewList feature={this.props.feature} selected="" />
         <EmitterViewDetails emitter={this.props.feature.selectedEmitter} />
       </div>
