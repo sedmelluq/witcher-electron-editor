@@ -103,15 +103,15 @@ export default class EmitterInfo {
         new BooleanField('spawnWorldSpace')
       ]),
       new EmitterModule(0x00200000, 0, 'Spawn circle', [
-        new Vector3BufferField('spawnInnerRadius', periodicChange),
-        new Vector3BufferField('spawnOuterRadius', periodicChange),
+        new FloatBufferField('spawnInnerRadius', periodicChange),
+        new FloatBufferField('spawnOuterRadius', periodicChange),
         new BooleanField('spawnWorldSpace'),
         new BooleanField('spawnSurfaceOnly'),
         new Vector3Field('p0A8'),
         new FloatBufferField('spawnToLocalMatrix', matrixBuffer)
       ]),
       new EmitterModule(0x00400000, 0, 'Spawn sphere', [
-        new Vector3BufferField('spawnInnerRadius', periodicChange),
+        new FloatBufferField('spawnInnerRadius', periodicChange),
         new BooleanField('spawnPositiveX'),
         new BooleanField('spawnNegativeX'),
         new BooleanField('spawnPositiveY'),
