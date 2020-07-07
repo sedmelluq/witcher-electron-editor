@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "buffer-builder": "^0.2.0",
-    "electron": "^8.0.3",
+    "electron": "^8.2.4",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
     "net": "^1.0.2",
